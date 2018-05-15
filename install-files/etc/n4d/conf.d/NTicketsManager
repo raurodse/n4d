@@ -1,0 +1,8 @@
+[SETUP]
+type=python
+path=NTicketsManager.py
+class=NTicketsManager
+[METHODS]
+create_ticket=anonymous
+(us)get_ticket=*
+set_ticket=*
