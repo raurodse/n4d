@@ -211,7 +211,6 @@ class VariablesManager:
 			t=threading.Thread(target=self.check_single_client,args=(mac,ip,))
 			t.daemon=True
 			t.start()
-			ip=self.variable
 
 	#def manual_client_list_check
 	
@@ -224,13 +223,15 @@ class VariablesManager:
 		c=xmlrpclib.ServerProxy("https://%s:9779"%ip)
 		try:
 			c.get_methods()
-			self.variables_clients[mac]["last_check"]=time.time()
-			self.variables_clients[mac]["missed_pings"]=0
+			if mac in self.variables_clients:
+				self.variables_clients[mac]["last_check"]=time.time()
+				self.variables_clients[mac]["missed_pings"]=0
 		except:
-			self.variables_clients[mac]["missed_pings"]+=1
-			if self.variables_clients[mac]["missed_pings"] >=max_pings:
-				print "[VariablesManager] Removing client %s:%s after %s missed pings."%(mac,ip,max_pings)
-				self.variables_clients.pop(mac)
+			if mac in self.variables_clients:
+				self.variables_clients[mac]["missed_pings"]+=1
+				if self.variables_clients[mac]["missed_pings"] >=max_pings:
+					print "[VariablesManager] Removing client %s:%s after %s missed pings."%(mac,ip,max_pings)
+					self.variables_clients.pop(mac)
 		
 	#def check_single_client
 	
