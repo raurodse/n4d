@@ -1,0 +1,15 @@
+/var/lib/n4d/variables-dir
+/var/lib/n4d/variables-inbox
+/var/lib/n4d/variables-trash
+/var/log/n4d
+/usr/share/n4d/xmlrpc-server/post-init-custom-variables
+/usr/share/n4d/xmlrpc-server/custom-variables
+/usr/share/n4d/xmlrpc-server
+/usr/share/n4d/variablesmanager-funcs
+/usr/share/n4d/sites-enabled
+/usr/share/n4d/sites-disabled
+/usr/share/n4d/perl-plugins
+/usr/share/n4d/binary-plugins
+/etc/n4d/one-shot
+/etc/n4d/disabled.d
+/etc/n4d/controlled-startups.d

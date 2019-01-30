@@ -1,3 +1,9 @@
+n4d (0.118) bionic; urgency=high
+
+  * Adding dirs file
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 30 Jan 2019 17:52:31 +0100
+
 n4d (0.117) bionic; urgency=high
 
   * Bionic release
