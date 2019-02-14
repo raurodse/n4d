@@ -1,3 +1,9 @@
+n4d (0.118) bionic; urgency=medium
+
+  * Adding sudo group
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Thu, 14 Feb 2019 09:46:39 +0100
+
 n4d (0.117) bionic; urgency=high
 
   * Bionic release
