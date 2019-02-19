@@ -70,7 +70,7 @@ class N4dCreateConf :
 		f.write("type=binary\n")
 		f.write("path="+bin_file+"\n")
 		f.write("class="+strip_special_chars(bin_file)+"\n")
-		f.write("perms=adm,admins\n")
+		f.write("perms=sudo,admins\n")
 		f.close()
 		print "[n4d-create-conf] File " + sys.path[0] + "/" + bin_file + "_conf created!"
 		print "\t[!] You should edit group permissions in order to be a valid n4d conf file [!]"
