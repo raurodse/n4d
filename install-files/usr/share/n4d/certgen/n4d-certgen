@@ -19,7 +19,7 @@ if [ ! -e "${CERTPATH}${CERTNAME}key.pem" ]; then
 		mkdir -p $CERTPATH
 		openssl genrsa -out ${CERTPATH}${CERTNAME}key.pem 2048
        	        yes '' | openssl req -new -subj '/CN=n4d' -key ${CERTPATH}${CERTNAME}key.pem -out ${CERTPATH}${CERTNAME}.csr
-               	openssl x509 -req -days 600 -in ${CERTPATH}${CERTNAME}.csr -signkey ${CERTPATH}${CERTNAME}key.pem -out ${CERTPATH}${CERTNAME}cert.pem
+               	openssl x509 -req -days 6000 -in ${CERTPATH}${CERTNAME}.csr -signkey ${CERTPATH}${CERTNAME}key.pem -out ${CERTPATH}${CERTNAME}cert.pem
 		
 	fi
 fi
