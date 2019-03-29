@@ -1,3 +1,9 @@
+n4d (0.121) bionic; urgency=high
+
+  * Extended certificate life
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 29 Mar 2019 13:52:47 +0100
+
 n4d (0.120) bionic; urgency=high
 
   * Sudo group when creating configuration files
