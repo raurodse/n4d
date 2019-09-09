@@ -645,6 +645,8 @@ class VariablesManager:
 			if self.variables.has_key("REMOTE_VARIABLES_SERVER") and self.variables["REMOTE_VARIABLES_SERVER"][u"value"]!="" and self.variables["REMOTE_VARIABLES_SERVER"][u"value"]!=None:
 				try:
 					server_ip=socket.gethostbyname(self.variables["REMOTE_VARIABLES_SERVER"][u"value"])
+					if server_ip == "127.0.1.1":
+						return None
 				except:
 					return None
 				if self.get_ip()!=server_ip:
