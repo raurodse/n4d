@@ -1,3 +1,9 @@
+n4d (0.122) bionic; urgency=medium
+
+  * Removed subprocess groups call from core
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 10 Jan 2020 14:41:41 +0100
+
 n4d (0.121.1) bionic; urgency=medium
 
   * Fixed endless loop when a client hostname is 'server', which is a really
