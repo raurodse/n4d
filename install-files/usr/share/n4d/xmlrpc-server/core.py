@@ -1347,9 +1347,7 @@ class Core:
 					if self.credentials[user] == password:
 						print("[CREDENTIALS CACHE] FOUND")
 						user_found=True
-						paux = subprocess.Popen(["groups",user],stdout = subprocess.PIPE,stderr = subprocess.PIPE)
-						cnaux = paux.stdout.readline().replace("\n","")
-						grouplist = cnaux.split(":")[1].lstrip().split(" ")
+						grouplist = [g.gr_name for g in grp.getgrall() if user in g.gr_mem]
 						grouplist.append('*')
 						grouplist.append('anonymous')						
 						user_found=True
@@ -1366,9 +1364,7 @@ class Core:
 				if objects["NTicketsManager"].validate_user(user,password):
 					print("[NTicketsManager] TICKET FOUND")
 					user_found=True
-					paux = subprocess.Popen(["groups",user],stdout = subprocess.PIPE,stderr = subprocess.PIPE)
-					cnaux = paux.stdout.readline().replace("\n","")
-					grouplist = cnaux.split(":")[1].lstrip().split(" ")
+					grouplist = [g.gr_name for g in grp.getgrall() if user in g.gr_mem]
 					grouplist.append('*')
 					grouplist.append('anonymous')						
 					user_found=True
@@ -1378,8 +1374,7 @@ class Core:
 					
 				aux = PamValidate()
 				if aux.authentication(user,password):
-					paux = subprocess.Popen(["groups",user],stdout = subprocess.PIPE,stderr = subprocess.PIPE)
-					cnaux = paux.stdout.readline().replace("\n","")
+					grouplist = [g.gr_name for g in grp.getgrall() if user in g.gr_mem]
 					grouplist = cnaux.split(":")[1].lstrip().split(" ")
 					grouplist.append('*')
 					grouplist.append('anonymous')					
