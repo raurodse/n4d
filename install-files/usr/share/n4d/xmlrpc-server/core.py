@@ -1375,7 +1375,6 @@ class Core:
 				aux = PamValidate()
 				if aux.authentication(user,password):
 					grouplist = [g.gr_name for g in grp.getgrall() if user in g.gr_mem]
-					grouplist = cnaux.split(":")[1].lstrip().split(" ")
 					grouplist.append('*')
 					grouplist.append('anonymous')					
 					user_found=True
