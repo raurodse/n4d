@@ -1391,21 +1391,16 @@ class Core:
 						self.dprint("\tThis function can be executed by: %s"%plugin.function[m])
 						for group in grouplist:
 							if group in plugin.function[m] or group=="root":
-
-								count=0
 								tmp=list(new_params)
-								
 								if len(tmp)>0:
+									arg_count=0
 									for item in plugin.secure_order:
-										secure_type,variable_name=item
-										if len(secure_type)>0:
-											if m in secure_type:
-												tmp_count=count
-												while tmp_count >= len(tmp):
-													tmp_count-=1
-												tmp[tmp_count]=locals()[variable_name]
-											
-											count+=1
+										secure_function_list,variable_name=item
+										if m in secure_function_list:
+											if arg_count < len(tmp):
+												tmp[arg_count]=locals()[variable_name]
+												arg_count+=1
+										
 											
 								new_params=tuple(tmp)
 								return (RUN,new_params)
