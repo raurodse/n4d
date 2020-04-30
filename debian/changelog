@@ -1,3 +1,9 @@
+n4d (0.124) bionic; urgency=medium
+
+  * Fixed secure functions args check
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 30 Apr 2020 11:40:45 +0200
+
 n4d (0.123) bionic; urgency=medium
 
   * Removed subprocess groups call from core
