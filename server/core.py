@@ -12,6 +12,7 @@ import os
 import netifaces
 import subprocess
 import threading
+import inspect
 
 import n4d.responses
 
@@ -33,6 +34,12 @@ KEY_AUTH=70
 UNKNOWN_AUTH=80
 
 DEFAULT_ALLOWED_GROUPS=["sudo","admins","root"]
+
+
+class N4dTypeError(TypeError):
+	def __init__(self,msg):
+		TypeError.__init__(self,msg)
+		
 
 class Core:
 	
@@ -445,6 +452,20 @@ class Core:
 		
 	#def unload_plugin
 	
+	def compare_parameters(self,n4d_data,n4d_method):
+		
+		info=inspect.signature(n4d_method)
+		n4d_error=None
+		try:
+			info.bind(*n4d_data["params"])
+		except TypeError as e:
+			n4d_error=N4dTypeError(str(e))
+		
+		if n4d_error!=None:
+			raise n4d_error
+	
+	#def compare_parameters
+	
 	def parse_params(self,method,params):
 		
 		# 0 n4d_extra (dict : client_address, client_pid)
@@ -731,6 +752,9 @@ class Core:
 					new_params[self.builtin_protected_args[method]["protected_ip"]]=n4d_call_data["client_address"]
 					n4d_call_data["params"]=tuple(new_params)
 		
+		# checking arguments
+		self.compare_parameters(n4d_call_data,getattr(self,"builtin_"+n4d_call_data["method"]))
+		
 		response=getattr(self,"builtin_"+n4d_call_data["method"])(*n4d_call_data["params"])
 		return response
 
@@ -777,6 +801,10 @@ class Core:
 						new_params=list(n4d_call_data["params"])
 						new_params[self.plugin_manager.plugins[class_]["methods"][method]["protected_ip"]]=n4d_call_data["client_address"]
 						n4d_call_data["params"]=tuple(new_params)
+				
+				
+				# checking arguments
+				self.compare_parameters(n4d_call_data,getattr(self.plugin_manager.plugins[n4d_call_data["class"]]["object"],n4d_call_data["method"]))
 				
 				self.dprint("%s@%s calling %s.%s ..."%(n4d_call_data["user"],n4d_call_data["client_address"],n4d_call_data["class"],n4d_call_data["method"]))
 				response=getattr(self.plugin_manager.plugins[n4d_call_data["class"]]["object"],n4d_call_data["method"])(*n4d_call_data["params"])
@@ -827,10 +855,10 @@ class Core:
 			tback=traceback.format_exc()
 			self.dprint("[!] Exception captured [!]")
 			self.dprint(tback)
-			#if type(e)==TypeError:
-			#	response=n4d.responses.build_invalid_arguments_response(None,str(e),tback)
-			#else:
-			response=n4d.responses.build_unhandled_error_response(str(e),tback)
+			if type(e)==N4dTypeError:
+				response=n4d.responses.build_invalid_arguments_response(str(e))
+			else:
+				response=n4d.responses.build_unhandled_error_response(str(e),tback)
 
 			return response
 			raise e
