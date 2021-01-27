@@ -1,0 +1,42 @@
+Source: n4d
+Section: python
+Priority: standard
+Maintainer: Equipo LliureX <lliurex@gva.es> 
+Build-Depends: debhelper (>=10),
+               dh-python,
+               python3-setuptools,
+	       python3-all,
+	       python3-netifaces,
+	       python3-pyinotify,
+               python3-pkg-resources,
+	       python3-pam
+Standards-Version: 4.1.2
+Homepage: http://lliurex.net
+Vcs-Browser: https://github.com/lliurex/n4d
+
+Package: n4d
+Architecture: all
+Pre-Depends: openssl
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}, python3-n4d
+Description: Pluggable XMLRPC Server
+  This package configures a xmlrpc server to allow the remote execution of
+  remote functions.
+
+Package: python3-n4d
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}, python3, python3-pam, python3-pyinotify, python3-netifaces, python3-n4d-base, python3-pkg-resources
+Description: Main python3 n4d package. 
+  Provides server and basic libraries.
+
+Package: python3-n4d-base
+Architecture: all
+Conflicts: python3-n4d-base (<<0.902)
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}, python3
+Description: Main python3 n4d library.
+  Provides N4D base directory structure for extra libraries.
+
+Package: n4d-dev
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, perl, python3
+Description:  n4d debhelpers
+ This package contains n4d helpers for make debian package
