@@ -385,7 +385,7 @@ class Core:
 				f_name=f.replace(Core.BUILTIN_FUNCTIONS_PATH,"")
 				self.dstdout("\t\t%s ... "%f_name)
 				f_name=f_name.strip(".py").split("/")[-1]
-				exec(open(f).read())
+				exec(open(f).read(),locals())
 				setattr(Core,"builtin_"+f_name,locals()[f_name])
 				if not f_name.startswith("_"):
 					Core.BUILTIN_FUNCTIONS.append(f_name)
@@ -523,30 +523,39 @@ class Core:
 		try:
 			
 			n4d_call_data=params[0]
-			n4d_call_data["error_msg"]=None
+			n4d_call_data["error"]=None
+			n4d_call_data["error_id"]=n4d.responses.UNHANDLED_ERROR
 			n4d_call_data["method"]=method
 			
 			if method in Core.BUILTIN_FUNCTIONS:
+				#Method is known
+				n4d_call_data["error_id"]=0
 				n4d_call_data["user"]=None
 				n4d_call_data["password"]=None
 				n4d_call_data["auth_type"]=ANONYMOUS_AUTH
 				n4d_call_data["class"]="Core"
 				n4d_call_data["params"]=tuple(params[1:])
 			else:
+				#for now we have an unkown method. it might be a plugin call.
+				n4d_call_data["error_id"]=n4d.responses.UNKNOWN_METHOD
+				#Lets try to extract information
 				if len(params)>1:
 					n4d_call_data["user"],n4d_call_data["password"],n4d_call_data["auth_type"]=_auth_parsing(params[1])
 					n4d_call_data["class"]=params[2]
 					n4d_call_data["params"]=tuple(params[3:])
 					_verify_params(n4d_call_data)
+					n4d_call_data["error_id"]=0
 				else:
-					n4d_call_data["error"]="Unknown built-in method '%s' or invalid n4d call format. Ex: method(auth,class_name,*args)"%method
+					n4d_call_data["error"]="Unknown built-in method '%s' or invalid n4d call format. Ex: method(auth,class_name,*args)"%method	
 					n4d_call_data["traceback"]="[Core.parse_params] Method not in Core.BUILTIN_FUNCTIONS and unable to parse standard n4d call args"
+					
 				
 			return n4d_call_data
 			
 		except Exception as e:
 			print(e)
 			n4d_call_data["error"]=str(e)
+			n4d_call_data["error_id"]=n4d.responses.UNHANDLED_ERROR
 			tback=traceback.format_exc()
 			n4d_call_data["traceback"]=tback
 			return n4d_call_data
@@ -827,7 +836,10 @@ class Core:
 			n4d_call_data=self.parse_params(method,params)
 
 			if n4d_call_data["error"]!=None:
-				return n4d.responses.build_unhandled_error_response(n4d_call_data["error"],n4d_call_data["traceback"])
+				if n4d_call_data["error_id"]==n4d.responses.UNKNOWN_METHOD:
+					return n4d.responses.build_unknown_method_response()
+				else:
+					return n4d.responses.build_unhandled_error_response(n4d_call_data["error"],n4d_call_data["traceback"])
 
 			# If no exception is raised we are ok to authenticate
 			if not self.authenticate(n4d_call_data):
