@@ -481,15 +481,15 @@ class Core:
 			if type(n4d_params)!=dict:
 				ok=False
 				exc_txt="Could not build params dict."
-			if not type(n4d_params["class"]) == str:
-				ok=False
-				exc_txt="Class name is not a string"
 			if not (type(n4d_params["user"]) == str or n4d_params["user"] == None):
 				ok=False
 				exc_txt="Authentication user is not a string or None"
 			if not (type(n4d_params["password"]) == str or n4d_params["password"] == None):
 				ok=False
-				exc_txt="Authentication password is not a string or None"
+				exc_txt="Authentication password is not a string"
+			if not type(n4d_params["class"]) == str:
+				ok=False
+				exc_txt="Class name is not a string"
 			if not ok:
 				raise NameError(exc_txt)
 
