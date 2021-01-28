@@ -1,3 +1,9 @@
+n4d (0.912.1) focal; urgency=medium
+
+  * Making arguments check error easier to understand
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 28 Jan 2021 11:22:58 +0100
+
 n4d (0.912) focal; urgency=medium
 
   * Added arguments check before executing exported function
