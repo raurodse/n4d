@@ -1,3 +1,10 @@
+n4d (0.916) focal; urgency=medium
+
+  * Raising authentication exceptions
+  * Bug fixes when checking allowed_users
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 28 Jan 2021 13:12:31 +0100
+
 n4d (0.915) focal; urgency=medium
 
   * Improvements error handling when parsing n4d call arguments
