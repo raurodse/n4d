@@ -1,3 +1,9 @@
+n4d (0.915) focal; urgency=medium
+
+  * Improvements error handling when parsing n4d call arguments
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 28 Jan 2021 12:53:34 +0100
+
 n4d (0.914) focal; urgency=medium
 
   * Fixed imports in built-in functions
