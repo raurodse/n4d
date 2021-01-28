@@ -1,3 +1,9 @@
+n4d (0.917.1) focal; urgency=medium
+
+  * Fixed typo 
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 28 Jan 2021 22:34:41 +0100
+
 n4d (0.917) focal; urgency=medium
 
   * Making sure you can't call plugin functions from classes that failed to
