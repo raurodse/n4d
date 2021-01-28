@@ -576,9 +576,12 @@ class Core:
 	def authenticate(self,n4d_data):
 		
 		if n4d_data["auth_type"] in Core.VALID_AUTH_TYPES:
-			return self.execute_auth[n4d_data["auth_type"]](n4d_data)
-		else:
-			raise NameError("Unknown authentication type")
+			if self.execute_auth[n4d_data["auth_type"]](n4d_data):
+				return True
+			else:
+				raise NameError("Authentication error")
+		
+		raise NameError("Unknown authentication type")
 		
 	#def authenticate
 
@@ -800,7 +803,7 @@ class Core:
 					
 			if not ok:
 				if "allowed_users" in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]:
-					if user in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]["allowed_users"]:
+					if n4d_call_data["user"] in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]["allowed_users"]:
 						ok=True
 		
 			if n4d_call_data["user"]=="root" and not ok:
@@ -866,7 +869,6 @@ class Core:
 			# If auth is ok we execute function
 
 			response=None
-
 			# is it a core function 
 			if method in Core.BUILTIN_FUNCTIONS:
 				response=self._dispatch_core_function(n4d_call_data)
