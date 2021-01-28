@@ -60,6 +60,9 @@ class PluginManager:
 				self.plugins[plugin_name]["found"]=False
 			
 		except Exception as e:
+			if plugin_name == None:
+				plugin_name = file_path
+			self.dprint("Error parsing '%s.json': %s"%(plugin_name,str(e)))
 			if plugin_name!=None:
 				self.plugins[plugin_name]["found"]=False
 				
