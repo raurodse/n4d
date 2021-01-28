@@ -40,6 +40,10 @@ class N4dTypeError(TypeError):
 	def __init__(self,msg):
 		TypeError.__init__(self,msg)
 		
+class N4dClassError(NameError):
+	def __init__(self,msg):
+		NameError.__init__(self,msg)
+		
 
 class Core:
 	
@@ -475,23 +479,19 @@ class Core:
 		
 		def _verify_params(n4d_params):
 			
-			ok=True
-			exc_txt="Unknown error"
-			
 			if type(n4d_params)!=dict:
-				ok=False
 				exc_txt="Could not build params dict."
-			if not (type(n4d_params["user"]) == str or n4d_params["user"] == None):
-				ok=False
-				exc_txt="Authentication user is not a string or None"
-			if not (type(n4d_params["password"]) == str or n4d_params["password"] == None):
-				ok=False
-				exc_txt="Authentication password is not a string"
-			if not type(n4d_params["class"]) == str:
-				ok=False
-				exc_txt="Class name is not a string"
-			if not ok:
 				raise NameError(exc_txt)
+			if not (type(n4d_params["user"]) == str or n4d_params["user"] == None):
+				exc_txt="Authentication user is not a string"
+				raise NameError(exc_txt)
+			if not (type(n4d_params["password"]) == str or n4d_params["password"] == None):
+				exc_txt="Authentication password is not a string"
+				raise NameError(exc_txt)
+			if not type(n4d_params["class"]) == str:
+				exc_txt="Class name is not a string"
+				raise N4dClassError(exc_txt)
+				
 
 			return True
 			
@@ -499,7 +499,7 @@ class Core:
 		
 		def _auth_parsing(auth):
 		
-			auth_type=PAM_AUTH
+			auth_type=UNKNOWN_AUTH
 			user=None
 			password=None
 			
@@ -512,8 +512,10 @@ class Core:
 					user="root"
 					password=auth
 					
-			if type(auth)==tuple or type(auth)==list:
-				user,password=auth
+			elif type(auth)==tuple or type(auth)==list:
+				if len(auth)==2:
+					user,password=auth
+					auth_type=PAM_AUTH
 			
 			return user,password,auth_type
 			
@@ -540,7 +542,11 @@ class Core:
 				n4d_call_data["error_id"]=n4d.responses.UNKNOWN_METHOD
 				#Lets try to extract information
 				if len(params)>1:
-					n4d_call_data["user"],n4d_call_data["password"],n4d_call_data["auth_type"]=_auth_parsing(params[1])
+					try:
+						n4d_call_data["user"],n4d_call_data["password"],n4d_call_data["auth_type"]=_auth_parsing(params[1])
+					except Exception as e:
+						n4d_call_data["error"]=str(e)
+						n4d_call_data["error_id"]=n4d.responses.AUTHENTICATION_FAILED
 					n4d_call_data["class"]=params[2]
 					n4d_call_data["params"]=tuple(params[3:])
 					_verify_params(n4d_call_data)
@@ -553,9 +559,13 @@ class Core:
 			return n4d_call_data
 			
 		except Exception as e:
-			print(e)
+			
+			if type(e) == N4dClassError:
+				n4d_call_data["error_id"]=n4d.responses.UNKNOWN_CLASS
+			else:
+				n4d_call_data["error_id"]=n4d.responses.UNHANDLED_ERROR
+				
 			n4d_call_data["error"]=str(e)
-			n4d_call_data["error_id"]=n4d.responses.UNHANDLED_ERROR
 			tback=traceback.format_exc()
 			n4d_call_data["traceback"]=tback
 			return n4d_call_data
@@ -835,18 +845,27 @@ class Core:
 
 			n4d_call_data=self.parse_params(method,params)
 
+
 			if n4d_call_data["error"]!=None:
 				if n4d_call_data["error_id"]==n4d.responses.UNKNOWN_METHOD:
 					return n4d.responses.build_unknown_method_response()
-				else:
-					return n4d.responses.build_unhandled_error_response(n4d_call_data["error"],n4d_call_data["traceback"])
-
-			# If no exception is raised we are ok to authenticate
-			if not self.authenticate(n4d_call_data):
+				if n4d_call_data["error_id"]==n4d.responses.AUTHENTICATION_FAILED:
+					return n4d.responses.build_authentication_failed_response()
+				if n4d_call_data["error_id"]==n4d.responses.UNKNOWN_CLASS:
+					return n4d.responses.build_unknown_class_response()
 				
+				return n4d.responses.build_unhandled_error_response(n4d_call_data["error"],n4d_call_data["traceback"])
+				
+			# if we didn't get any errors when parsing arguments, we are ok to check authentication
+
+			try:
+				self.authenticate(n4d_call_data)
+			except:
 				return n4d.responses.build_authentication_failed_response()
 			
 			# If auth is ok we execute function
+
+			response=None
 
 			# is it a core function 
 			if method in Core.BUILTIN_FUNCTIONS:
@@ -861,7 +880,10 @@ class Core:
 			if not n4d.responses.is_valid_response(response):
 					response=n4d.responses.build_invalid_response(response)
 			
-			return response
+			if response != None:
+				return response
+				
+			return n4d.responses.build_unhandled_error_response("There was no response to return")
 			
 		except Exception as e:
 			
