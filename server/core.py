@@ -46,7 +46,7 @@ class Core:
 	BASE_DIR="/usr/share/n4d/"
 	BUILTIN_FUNCTIONS_PATH=BASE_DIR+"built-in/"
 	N4D_KEY_PATH="/etc/n4d/key"
-	PUBLIC_BASE_FUNCTIONS=[]
+	BUILTIN_FUNCTIONS=[]
 	DEBUG=False
 	VALID_AUTH_TYPES=[ANONYMOUS_AUTH,PAM_AUTH,KEY_AUTH]
 	SINGLETON=None
@@ -388,7 +388,7 @@ class Core:
 				exec(open(f).read())
 				setattr(Core,"builtin_"+f_name,locals()[f_name])
 				if not f_name.startswith("_"):
-					Core.PUBLIC_BASE_FUNCTIONS.append(f_name)
+					Core.BUILTIN_FUNCTIONS.append(f_name)
 				self.dstdout("OK\n")
 			except Exception as e:
 				self.dstdout(e)
@@ -483,7 +483,7 @@ class Core:
 				exc_txt="Could not build params dict."
 			if not type(n4d_params["class"]) == str:
 				ok=False
-				exc_txt="class is not a string"
+				exc_txt="Class name is not a string"
 			if not (type(n4d_params["user"]) == str or n4d_params["user"] == None):
 				ok=False
 				exc_txt="Authentication user is not a string or None"
@@ -519,13 +519,14 @@ class Core:
 			
 		#def auth_parsing
 		
+		
 		try:
 			
 			n4d_call_data=params[0]
-			n4d_call_data["error"]=None
+			n4d_call_data["error_msg"]=None
 			n4d_call_data["method"]=method
 			
-			if method in Core.PUBLIC_BASE_FUNCTIONS:
+			if method in Core.BUILTIN_FUNCTIONS:
 				n4d_call_data["user"]=None
 				n4d_call_data["password"]=None
 				n4d_call_data["auth_type"]=ANONYMOUS_AUTH
@@ -538,8 +539,8 @@ class Core:
 					n4d_call_data["params"]=tuple(params[3:])
 					_verify_params(n4d_call_data)
 				else:
-					n4d_call_data["error"]="Unknown built-in method and/or class"
-					n4d_call_data["traceback"]="[Core.parse_params] Not enough arguments to parse a standard n4d call."
+					n4d_call_data["error"]="Unknown built-in method '%s' or invalid n4d call format. Ex: method(auth,class_name,*args)"%method
+					n4d_call_data["traceback"]="[Core.parse_params] Method not in Core.BUILTIN_FUNCTIONS and unable to parse standard n4d call args"
 				
 			return n4d_call_data
 			
@@ -836,7 +837,7 @@ class Core:
 			# If auth is ok we execute function
 
 			# is it a core function 
-			if method in Core.PUBLIC_BASE_FUNCTIONS:
+			if method in Core.BUILTIN_FUNCTIONS:
 				response=self._dispatch_core_function(n4d_call_data)
 			else:
 				# a valid plugin plugin
