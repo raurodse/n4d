@@ -1,3 +1,11 @@
+n4d (0.917) focal; urgency=medium
+
+  * Making sure you can't call plugin functions from classes that failed to
+    initialize.
+  * Json parsing now dprints reason why it fails 
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 28 Jan 2021 15:07:04 +0100
+
 n4d (0.916) focal; urgency=medium
 
   * Raising authentication exceptions
