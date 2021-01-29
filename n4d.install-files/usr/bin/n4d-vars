@@ -133,7 +133,7 @@ class N4dVars:
 	
 	def read_inbox(self):
 		
-		key=self.readkey()
+		key=self.read_key()
 		if key==None:
 			print("[!] Error reading n4d key to perform the operation")
 			return -1
@@ -148,7 +148,7 @@ class N4dVars:
 	
 	def empty_trash(self):
 		
-		key=self.readkey()
+		key=self.read_key()
 		if key==None:
 			print("[!] Error reading n4d key to perform the operation")
 			return -1
