@@ -1,3 +1,9 @@
+n4d (0.917.3) focal; urgency=medium
+
+  * Fixed typo in core.get_client_list
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 04 Feb 2021 14:12:35 +0100
+
 n4d (0.917.2) focal; urgency=medium
 
   * Fixed n4d-vars read_key call
