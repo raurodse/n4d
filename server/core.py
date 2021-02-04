@@ -1018,7 +1018,7 @@ class Core:
 	
 	def get_client_list(self,force_check=False):
 		
-		return self.clients_manager.get_client_list(foce_check)
+		return self.clients_manager.get_client_list(force_check)
 		
 	#def get_client_list
 	
