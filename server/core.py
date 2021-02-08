@@ -264,6 +264,7 @@ class Core:
 		
 		ret=set()
 		ret.add("127.0.0.1")
+		ret.add("127.0.1.1")
 		for item in netifaces.interfaces():
 			info=self.get_device_info(item)
 			if "ip" in info:
