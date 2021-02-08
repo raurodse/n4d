@@ -40,14 +40,33 @@ class N4dModules:
 	
 	def load_plugin(self,plugin_conf_path):
 		
-		return self.client.load_plugin(self.n4d_key,plugin_conf_path)
+		sys.stdout.write("Loading %s ...\t"%plugin_conf_path)
+		try:
+			ret=self.client.load_plugin(self.n4d_key,plugin_conf_path)
+			if ret["status"]==0:
+				print("OK\n")
+			else:
+				print("FAILED. %s"%ret["msg"])
+				
+		except Exception as e:
+			print("FAILED. %s"%str(e))
+			
 		
 	#def load_plugin
 	
 	def unload_plugin(self,plugin_name):
 		
-		return self.client.unload_plugin(self.n4d_key,plugin_name)
-		
+		sys.stdout.write("Unloading %s ...\t"%plugin_conf_path)
+		try:
+			ret=self.client.unload_plugin(self.n4d_key,plugin_name)
+			if ret["status"]==0:
+				print("OK\n")
+			else:
+				print("FAILED. %s"%ret["msg"])
+				
+		except Exception as e:
+			print("FAILED. %s"%str(e))
+			
 	#def unload_plugin
 	
 	def usage(self):
