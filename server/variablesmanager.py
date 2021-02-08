@@ -244,9 +244,9 @@ class VariablesManager:
 	def set_attr(self,name,attr_dic):
 		
 		if name in self.variables:
-			for key in attr:
+			for key in attr_dic:
 				if key!="value":
-					self.variables[name][key]=attr[key]
+					self.variables[name][key]=attr_dic[key]
 			self.save_variables(name)
 
 			return n4d.responses.build_successful_call_response(True,"Attributes set")
