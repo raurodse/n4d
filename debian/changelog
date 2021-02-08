@@ -1,3 +1,9 @@
+n4d (0.917.4) focal; urgency=medium
+
+  * Fixed variablesmanager.set_attr
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Mon, 08 Feb 2021 08:53:16 +0100
+
 n4d (0.917.3) focal; urgency=medium
 
   * Fixed typo in core.get_client_list
