@@ -1,3 +1,9 @@
+n4d (0.919) focal; urgency=medium
+
+  * Removed ret check in n4d-modules
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 10 Feb 2021 11:01:47 +0100
+
 n4d (0.918) focal; urgency=medium
 
   * Adding 127.0.1.1 to get_all_ips. Making sure variablesmanager doesn't end
