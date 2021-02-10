@@ -1,3 +1,9 @@
+n4d (0.920.1) focal; urgency=medium
+
+  * Removed \n in n4d-modules when printing OK
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 10 Feb 2021 14:30:25 +0100
+
 n4d (0.920) focal; urgency=medium
 
   * Making sure REMOTE_VARIABLES_SERVER is not used if None
