@@ -48,7 +48,12 @@ class N4dModules:
 			else:
 				print("FAILED. %s"%ret["msg"])
 				
+			return ret
+			
 		except Exception as e:
+			ret={}
+			ret["status"]=-1
+			ret["msg"]=str(e)
 			print("FAILED. %s"%str(e))
 			
 		
@@ -64,7 +69,11 @@ class N4dModules:
 			else:
 				print("FAILED. %s"%ret["msg"])
 				
+			return ret
+			
 		except Exception as e:
+			ret={}
+			ret["status"]=-1
 			print("FAILED. %s"%str(e))
 			
 	#def unload_plugin
@@ -97,12 +106,9 @@ if __name__=="__main__":
 		
 	if sys.argv[1] in ["load-plugin","enable-plugin"]:
 		ret=n4dm.load_plugin(sys.argv[2])
+		sys.exit(0)
 		
 	if sys.argv[1] in ["unload-plugin","disable-plugin"]:
 		ret=n4dm.unload_plugin(sys.argv[2])
-		
-	if ret["status"]==0:
 		sys.exit(0)
-	else:
-		print("Error: [%s] %s"%(ret["error_code"],ret["msg"]))
 	
