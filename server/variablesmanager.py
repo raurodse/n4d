@@ -280,7 +280,7 @@ class VariablesManager:
 			else:
 				return n4d.responses.build_successful_call_response(copy.deepcopy(self.variables[name]["value"]))
 				
-		elif "REMOTE_VARIABLES_SERVER" in self.variables:
+		elif "REMOTE_VARIABLES_SERVER" in self.variables and self.variables["REMOTE_VARIABLES_SERVER"]["value"]!=None:
 			
 			if self.variables["REMOTE_VARIABLES_SERVER"]["value"] not in self.core.get_all_ips():
 				context=ssl._create_unverified_context()
