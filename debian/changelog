@@ -1,3 +1,10 @@
+n4d (0.918) focal; urgency=medium
+
+  * Adding 127.0.1.1 to get_all_ips. Making sure variablesmanager doesn't end
+    up in a loop if its REMOTE_VARIABLE_SERVER resolves to itself
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 10 Feb 2021 08:46:16 +0100
+
 n4d (0.917.5) focal; urgency=medium
 
   * Try excepting n4d-modules calls
