@@ -56,7 +56,8 @@ class ClientManager:
 				ret=self.core.variables_manager.get_variable("REMOTE_VARIABLES_SERVER")
 				if ret["status"]==0:
 					remote_server=ret["return"]
-				
+					if remote_server==None:
+						return
 					server_ip=socket.gethostbyname(remote_server)
 					if server_ip not in self.core.get_all_ips():
 						
