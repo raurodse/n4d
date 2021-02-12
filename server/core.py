@@ -1,18 +1,20 @@
-import sys
-import time
+import imp
+import inspect
+import netifaces
 import glob
-import xmlrpc
-import traceback
+import os
+import pwd
+import grp
 import random
 import string
-import imp
-import grp
-import pwd
-import os
-import netifaces
+import stat
 import subprocess
+import sys
+import shutil
 import threading
-import inspect
+import time
+import traceback
+import xmlrpc
 
 import n4d.responses
 
@@ -1034,5 +1036,41 @@ class Core:
 		return self.clients_manager.check_client(machine_id)
 		
 	#def get_client_list
+	
+
+	def n4d_mv(self,orig,dest,force_permission=False,owner=None,group=None,perm=None,create_path=False):
+		if (os.path.exists(dest)):
+			file_stat = os.stat(dest)
+			shutil.move(orig,dest)
+			uid = file_stat.st_uid
+			gid = file_stat.st_gid
+			perm_file = file_stat.st_mode
+			if(force_permission):
+				if(owner != None):
+					uid = pwd.getpwnam(owner).pw_uid
+				if(group != None):
+					gid = grp.getgrnam(group).gr_gid
+				if(perm != None):
+					perm_file = int(perm,8)
+			os.chmod(dest,perm_file)
+			os.chown(dest,uid,gid)
+			return True
+		else:
+			if( not os.path.exists(os.path.dirname(dest))):
+				if(create_path):
+					os.makedirs(os.path.dirname(dest))
+				else:
+					return False
+			shutil.move(orig,dest)
+			uid = 0
+			gid = 0
+			if(owner != None):
+				uid = pwd.getpwnam(owner).pw_uid
+			if(group != None):
+				gid = grp.getgrnam(group).gr_gid
+			if(perm != None):
+				os.chmod(dest,int(perm,8))
+			os.chown(dest,uid,gid)
+			return True
 	
 #class Core
