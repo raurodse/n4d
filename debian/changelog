@@ -1,3 +1,9 @@
+n4d (0.921) focal; urgency=medium
+
+  * Added n4d_mv to core as a developer helper function
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 12 Feb 2021 13:38:02 +0100
+
 n4d (0.920.1) focal; urgency=medium
 
   * Removed \n in n4d-modules when printing OK
