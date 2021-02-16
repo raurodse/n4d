@@ -121,9 +121,17 @@ class N4dVars:
 			if self.is_status_ok(ret,silent=True):
 				print("%s='%s'"%(vname,str(ret["return"])))
 			
-		return -1
+		return 0
 		
 	#def get_variable
+	
+	def offline_getvars(self,var_list):
+		
+		# CODE GOES HERE
+		
+		return 0
+		
+	#def offline_getvars
 	
 	def set_value(self,vname,value):
 		
@@ -224,6 +232,10 @@ class N4dVars:
 				print("%s='%s'"%(vname,value))
 		
 	#def listvars
+	
+	def offline_getvars(self,var_list):
+		
+	#def offline_getvars
 	
 if __name__=="__main__":
 	
