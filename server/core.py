@@ -1073,4 +1073,27 @@ class Core:
 			os.chown(dest,uid,gid)
 			return True
 	
+	def n4d_get_user(self):
+		#WIP
+		return {}
+		s=inspect.stack()
+		for item in s:
+			if item[3]=="_dispatch" and "core.py" in item[1]:
+				user = inspect.getargvalues(item[0]).locals["user"]
+				password = inspect.getargvalues(item[0]).locals["password"]
+				method = inspect.getargvalues(item[0]).locals["method"]
+				class_name = inspect.getargvalues(item[0]).locals["class_name"]
+				return {'user':user,'pass':password,'method':method,'class':class_name}
+		return {}
+		
+	#def n4d_get_user
+	
+	def get_backup_name(self,plugin_name):
+		
+		timestamp=time.strftime("%d%m%Y_%H%M%S")
+		
+		return timestamp + "_" + plugin_name + ".tar.gz"
+		
+	#def get_backup_name	
+	
 #class Core
