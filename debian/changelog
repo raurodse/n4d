@@ -1,3 +1,11 @@
+n4d (0.922) focal; urgency=medium
+
+  * Added backup_timestamp function
+  * n4d-vars offline get_vars functional
+  * minor bugs and esthetic print changes
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 17 Feb 2021 09:40:14 +0100
+
 n4d (0.921) focal; urgency=medium
 
   * Added n4d_mv to core as a developer helper function
