@@ -152,7 +152,7 @@ class N4dServer:
 	
 	def start_server(self):
 		
-		dprint("N4D server ready at port %s (Press CTRL+c to exit) ...\n"%(self.server_port))
+		dprint("N4D server ready at port %s (Press CTRL+c to exit) ..."%(self.server_port))
 
 		try:
 			self.server.serve_forever()
