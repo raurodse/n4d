@@ -67,7 +67,7 @@ class ClientManager:
 						f=open(ClientManager.MACHINE_FILE)
 						machine_id=f.readline().strip("\n")
 						f.close()
-						ret=c.register_client("","ClientManager","",mac,machine_id)
+						ret=c.register_client("",mac,machine_id)
 						if ret["status"]==0:
 							self.server_id=ret["return"]
 				
