@@ -66,8 +66,6 @@ class TicketsManager:
 						self.main.tickets[user.pw_name]["date"]=time.time()
 						break
 				
-				#self.generate_pam()
-				
 	
 		notifier=Notifier(wm,Process_handler(self))
 		wdd=wm.add_watch(TicketsManager.WATCH_DIR,mask,rec=True)
