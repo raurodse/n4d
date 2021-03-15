@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import PAM
 class PamManager:
-	def __init__(self,module="login"):
+	def __init__(self,module="common-auth"):
 		self.user = None
 		self.passwd = None
 		self.auth = PAM.pam()
@@ -18,7 +18,6 @@ class PamManager:
 				if type == PAM.PAM_PROMPT_ECHO_OFF:
 					resp.append((passwd, 0))
 				elif type == PAM.PAM_ERROR_MSG or type == PAM.PAM_TEXT_INFO:
-					#print query
 					resp.append(('', 0))
 				else:
 					return None
@@ -30,7 +29,4 @@ class PamManager:
 			self.auth.acct_mgmt()
 			return True
 		except Exception as e:
-			#f = open('/var/log/n4d/pam','a')
-			#f.write(e.message + "\n")
-			#f.close()
 			return False
