@@ -1,3 +1,10 @@
+n4d (0.923) focal; urgency=medium
+
+  * Fixed client_register
+  * pam authentication from login to common-auth
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Mon, 15 Mar 2021 12:21:19 +0100
+
 n4d (0.922) focal; urgency=medium
 
   * Added backup_timestamp function
