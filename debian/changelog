@@ -1,3 +1,9 @@
+n4d (0.926) focal; urgency=medium
+
+  * Reduced register_sleep_time
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 23 Mar 2021 11:00:38 +0100
+
 n4d (0.925) focal; urgency=medium
 
   * Fixed server_changed. Core is not available but self is (!?). Something I
