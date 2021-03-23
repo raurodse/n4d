@@ -8,16 +8,10 @@ def server_changed(self,n4d_id,variable_name,value):
 	
 	if n4d_id == self.clients_manager.server_id:
 		self.n4d_id_validation_errors_count=0
+		self.dprint("Server variable '%s' change notified."%variable_name)
 		if variable_name in self.variables_manager.triggers:
-			self.dprint("N4D ID validated. Executing triggers for %s ..."%variable_name)
-			for item in self.variables_manager.triggers[variable_name]:
-				try:
-					class_name,function=item
-					t=threading.Thread(target=function,args=(value,))
-					t.daemon=True
-					t.start()
-				except:
-					pass
+			self.variables_manager.execute_triggers(variable_name,value)
+			
 		
 		return n4d.responses.build_successful_call_response(True)
 	
