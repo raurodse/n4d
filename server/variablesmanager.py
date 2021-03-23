@@ -233,8 +233,8 @@ class VariablesManager:
 			self.set_attr(name,attr)
 		
 		self.save_variables(name)
-		if name in self.triggers:
-			self.notify_changes(name,value)
+		
+		self.notify_changes(name,value)
 		
 		return n4d.responses.build_successful_call_response(True)
 			
@@ -344,6 +344,9 @@ class VariablesManager:
 		t.daemon=True
 		t.start()
 		
+		# self execution of triggers
+		self.execute_triggers(variable_name,value)
+		
 	#def notify_changes
 	
 	def _notify_changes(self,variable_name,value):
@@ -367,12 +370,30 @@ class VariablesManager:
 			self.triggers[variable_name]=set()
 		
 		self.triggers[variable_name].add((class_name,function))
-		
 		self.dprint("Trigger registered %s %s"%(variable_name,class_name))
 		
-		return True
+		return n4d.responses.build_successful_call_response()
 		
 	#def register_trigger
+	
+	def execute_triggers(self,variable_name,value):
+		
+		if variable_name in self.triggers:
+			self.dprint("Executing %s triggers ..."%variable_name)
+			for item in self.triggers[variable_name]:
+				try:
+					class_name,function=item
+					t=threading.Thread(target=function,args=(value,))
+					t.daemon=True
+					t.start()
+				except:
+					pass
+					
+		return n4d.responses.build_successful_call_response()
+		
+		
+	#def execute_triggers
+	
 	
 
 #class VariablesManager
