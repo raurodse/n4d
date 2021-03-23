@@ -11,7 +11,7 @@ import n4d.server.core
 
 class ClientManager:
 	
-	REGISTER_SLEEP_TIME=60*5
+	REGISTER_SLEEP_TIME=60*3
 	RUN_DIR="/run/n4d/clients/"
 	CLIENTS_FILE=RUN_DIR+"clients.json"
 	MACHINE_FILE="/etc/machine-id"
