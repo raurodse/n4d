@@ -16,7 +16,7 @@ def server_changed(self,n4d_id,variable_name,value):
 		return n4d.responses.build_successful_call_response(True)
 	
 	self.n4d_id_validation_errors_count+=1
-	time.sleep(Core.ERROR_SLEEP_TIME*self.n4d_id_validation_errors_count)
+	time.sleep(self.ERROR_SLEEP_TIME*self.n4d_id_validation_errors_count)
 	return n4d.responses.build_failed_call_response(UNKNOWN_N4D_ID,"Unknown N4D id")
 
 #def set_variable
