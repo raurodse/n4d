@@ -1,3 +1,11 @@
+n4d (0.924) focal; urgency=medium
+
+  * Fixed triggers execution. both in server and clients
+  * Added execute_triggers function in variablesmanager. Server_changed now
+    uses it instead of cooking its own version.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 23 Mar 2021 10:02:28 +0100
+
 n4d (0.923) focal; urgency=medium
 
   * Fixed client_register
