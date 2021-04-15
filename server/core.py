@@ -134,7 +134,7 @@ class Core:
 		
 	def execute_startups(self):
 		
-		self.startup_thread=threading.Thread(target=self._startup_launcher)
+		self.startup_thread=threading.Thread(target=self._startup_launcher,name="N4d.Core.execute_startups thread")
 		self.startup_thread.daemon=True
 		self.startup_thread.start()
 		
@@ -919,11 +919,17 @@ class Core:
 		
 	#def
 	
+	def is_plugin_available(self,plugin_name):
+		
+		return plugin_name in self.plugin_manager.plugins and self.plugin_manager.plugins[plugin_name]["found"] and "object" in self.plugin_manager.plugins[plugin_name]
+		
+	#def is_plugin_available
+	
 	def get_plugin(self,plugin_name):
 		'''
 		Function to help access plugins from other plugins
 		'''
-		if plugin_name in self.plugin_manager.plugins and self.plugin_manager.plugins[plugin_name]["found"] and "object" in self.plugin_manager.plugins[plugin_name]:
+		if self.is_plugin_available(plugin_name):
 			
 			return self.plugin_manager.plugins[plugin_name]["object"]
 			
