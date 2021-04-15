@@ -40,7 +40,7 @@ class ClientManager:
 	
 	def start_register_to_server_thread(self):
 		
-		self.register_thread=threading.Thread(target=self.register_to_server)
+		self.register_thread=threading.Thread(target=self.register_to_server,name="N4d.ClientManager.start_register_to_server_thread")
 		self.register_thread.daemon=True
 		self.register_thread.start()
 		
@@ -132,7 +132,7 @@ class ClientManager:
 		
 		if not wait_for_result:
 			for machine_id in self.clients:
-				t=threading.Thread(target=self.check_client,args=(machine_id,))
+				t=threading.Thread(target=self.check_client,args=(machine_id,),name="N4d.ClientManager.check_clients thread")
 				t.daemon=True
 				t.start()
 			return n4d.responses.build_successful_call_response(self.clients,"check_clients thread launched. Current variable is probably not up to date")
