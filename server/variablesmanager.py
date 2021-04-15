@@ -340,7 +340,7 @@ class VariablesManager:
 	
 	def notify_changes(self,variable_name,value):
 		
-		t=threading.Thread(target=self._notify_changes,args=(variable_name,value))
+		t=threading.Thread(target=self._notify_changes,args=(variable_name,value),name="N4d.VariablesManager.notify_changes thread")
 		t.daemon=True
 		t.start()
 		
@@ -383,7 +383,7 @@ class VariablesManager:
 			for item in self.triggers[variable_name]:
 				try:
 					class_name,function=item
-					t=threading.Thread(target=function,args=(value,))
+					t=threading.Thread(target=function,args=(value,),name="N4d.VariablesManager.execute_triggers thread")
 					t.daemon=True
 					t.start()
 				except:

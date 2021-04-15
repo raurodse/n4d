@@ -87,7 +87,7 @@ class TicketsManager:
 	
 	def start_inotify(self):
 
-		t=threading.Thread(target=self.__inotify)
+		t=threading.Thread(target=self.__inotify,name="N4d.TicketsManager.start_inotify thread")
 		t.daemon=True
 		t.start()
 
