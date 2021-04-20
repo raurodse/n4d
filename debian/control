@@ -17,7 +17,7 @@ Vcs-Browser: https://github.com/lliurex/n4d
 Package: n4d
 Architecture: all
 Pre-Depends: openssl
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}, python3-n4d
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}, python3-n4d (= ${binary:Version})
 Description: Pluggable XMLRPC Server
   This package configures a xmlrpc server to allow the remote execution of
   remote functions.
