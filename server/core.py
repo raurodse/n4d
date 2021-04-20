@@ -805,12 +805,14 @@ class Core:
 					if group in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]["allowed_groups"]:
 						ok=True
 						break
+			else:
+				self.dprint("[!] WARNING - 'allowed_groups' key missing in %s configuration file [!]"%n4d_call_data["class"])
 					
 			if not ok:
 				if "allowed_users" in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]:
 					if n4d_call_data["user"] in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]["allowed_users"]:
 						ok=True
-		
+			
 			if n4d_call_data["user"]=="root" and not ok:
 				ok=True
 		
