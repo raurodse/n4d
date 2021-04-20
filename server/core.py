@@ -800,10 +800,11 @@ class Core:
 			
 			ok=False
 			
-			for group in groups:
-				if group in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]["allowed_groups"]:
-					ok=True
-					break
+			if "allowed_groups" in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]:
+				for group in groups:
+					if group in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]["allowed_groups"]:
+						ok=True
+						break
 					
 			if not ok:
 				if "allowed_users" in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]:
