@@ -1,3 +1,10 @@
+n4d (0.930) focal; urgency=medium
+
+  * Fixed n4d-modules main function. Using self when it should be using
+    previously created object.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 27 May 2021 14:10:12 +0200
+
 n4d (0.929) focal; urgency=medium
 
   * Minor changes in variablesmanager
