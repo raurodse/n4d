@@ -352,17 +352,25 @@ class VariablesManager:
 	def _notify_changes(self,variable_name,value):
 		
 		cm=self.core.clients_manager
+		sent_ips=set()
 		for client in cm.clients:
 			try:
 				#self.dprint("Notifying %s changes to %s..."%(variable_name,cm.clients[client]["ip"]))
-				context=ssl._create_unverified_context()
-				s = xmlrpc.client.ServerProxy('https://%s:9779'%cm.clients[client]["ip"],context=context,allow_none=True)
-				s.server_changed(self.core.id,variable_name,value)
+				client_ip=cm.clients[client]["ip"]
+				sent_ips.add(client_ip)
+				self.send_server_changed(client_ip,variable_name,value)
 			except:
 				pass
 			
-			
 	#def notify_changes
+	
+	def send_server_changed(self,ip,variable_name,value):
+		
+		context=ssl._create_unverified_context()
+		s = xmlrpc.client.ServerProxy('https://%s:9779'%ip,context=context,allow_none=True)
+		s.server_changed(self.core.id,variable_name,value)
+		
+	#def send_server_changed
 	
 	def register_trigger(self,variable_name,class_name,function):
 		
