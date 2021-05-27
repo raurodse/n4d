@@ -46,3 +46,18 @@ def n4d_mv( orig, dest, force_permissions=False, owner=None, group=None, perm=No
         chmod( dest_path, dest_perms.st_mode )
 
     return True
+    
+def n4d_get_user():
+	#WIP
+	return {}
+	s=inspect.stack()
+	for item in s:
+		if item[3]=="_dispatch" and "core.py" in item[1]:
+			user = inspect.getargvalues(item[0]).locals["user"]
+			password = inspect.getargvalues(item[0]).locals["password"]
+			method = inspect.getargvalues(item[0]).locals["method"]
+			class_name = inspect.getargvalues(item[0]).locals["class_name"]
+			return {'user':user,'pass':password,'method':method,'class':class_name}
+	return {}
+	
+#def n4d_get_user
