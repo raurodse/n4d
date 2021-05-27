@@ -93,11 +93,11 @@ if __name__=="__main__":
 	n4dm = N4dModules()
 	
 	if len(sys.argv)!=3:
-		self.n4dm.usage()
+		n4dm.usage()
 		sys.exit(0)
 	
 	if sys.argv[1] not in n4dm.actions:
-		self.n4dm.usage()
+		n4dm.usage()
 		sys.exit(0)
 		
 	if not os.path.exists(sys.argv[2]):
