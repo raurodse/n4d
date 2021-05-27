@@ -92,7 +92,7 @@ class N4dServer:
 	class ThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
 		
 		def process_request_thread(self,request,client_address):
-
+			
 			ThreadingMixIn.process_request_thread(self,request,client_address)
 		
 		def _marshaled_dispatch(self, data, dispatch_method = None, path = None, n4d_extra_info=None):
