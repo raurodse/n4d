@@ -9,7 +9,6 @@ import xmlrpc.client
 import ssl
 import traceback
 
-
 import n4d.server.core
 import n4d.responses
 
@@ -227,7 +226,7 @@ class VariablesManager:
 			self.variables[name]=variable
 			self.variables[name]["volatile"]=False
 			
-		self.variables[name]["value"]=value
+		self.variables[name]["value"]=copy.deepcopy(value)
 		
 		if type(attr)==dict:
 			self.set_attr(name,attr)
