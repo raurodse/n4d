@@ -95,7 +95,7 @@ class N4dCreateConf :
 				tmp=tmp.lstrip(" ")
 				method_name=tmp.split(" ")[1]
 				method_name=method_name.split("(")[0]
-				if method_name.find("__")!=0 and method_name!="startup":
+				if method_name.find("__")!=0 and method_name!="startup" and method_name.find("_")!=0:
 					if not class_name in self.method_names:
 						self.method_names[class_name]=[]
 					self.method_names[class_name].append(method_name)
