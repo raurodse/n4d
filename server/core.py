@@ -371,11 +371,12 @@ class Core:
 	#def create_token
 	
 	def get_user_groups(self,user):
-		
-		groups = [g.gr_name for g in grp.getgrall() if user in g.gr_mem]
+		gid = pwd.getpwnam(user).pw_gid
+		groups_gids = os.getgrouplist(user, gid)
+		groups = [ grp.getgrgid(x).gr_name for x in groups_gids ]
 		groups.append("*")
 		groups.append("anonymous")
-		gid = pwd.getpwnam(user).pw_gid
+		
 		groups.append(grp.getgrgid(gid).gr_name)
 		return groups
 		
