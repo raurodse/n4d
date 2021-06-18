@@ -31,6 +31,9 @@ class VariablesManager:
 		#this should be the first thing called
 		self.core=n4d.server.core.Core.get_core()
 		
+		if os.path.exists(VariablesManager.LOCK_FILE):
+			os.remove(VariablesManager.LOCK_FILE)
+		
 		self.variables={}
 		self.triggers={}
 		
@@ -191,6 +194,7 @@ class VariablesManager:
 			else:
 				if variable_name in self.variables:
 					if "volatile" in self.variables[variable_name] and self.variables[variable_name]["volatile"]:
+						os.remove(VariablesManager.LOCK_FILE)
 						return True
 					var={}
 					var[variable_name]={}
@@ -231,7 +235,8 @@ class VariablesManager:
 		if type(attr)==dict:
 			self.set_attr(name,attr)
 		
-		self.save_variables(name)
+		if not self.variables[name]["volatile"]:
+			self.save_variables(name)
 		
 		self.notify_changes(name,value)
 		
