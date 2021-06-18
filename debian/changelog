@@ -1,3 +1,9 @@
+n4d (0.933) focal; urgency=medium
+
+  * New way to extract user groups, supporting AD users
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Mon, 14 Jun 2021 10:28:30 +0200
+
 n4d (0.932) focal; urgency=medium
 
   * n4d-create-conf: removing _ starting methods from configuration files
