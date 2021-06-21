@@ -85,6 +85,17 @@ class TicketsManager:
 	
 	#def _inotify	
 	
+	def is_valid_user(self,user):
+		
+		try:
+			pwd.getpwnam(user)
+			return True
+			
+		except:
+			return False
+		
+	#def __is_valid_user
+	
 	def start_inotify(self):
 
 		t=threading.Thread(target=self.__inotify,name="N4d.TicketsManager.start_inotify thread")
@@ -113,6 +124,9 @@ class TicketsManager:
 	
 	def create_ticket(self,user):
 		
+		if not self.is_valid_user(user):
+			return False
+		
 		t=time.time()
 		
 		ticket_file=TicketsManager.WATCH_DIR + user
@@ -140,6 +154,9 @@ class TicketsManager:
 	#def create_ticket
 	
 	def get_ticket(self,user):
+		
+		if not self.is_valid_user(user):
+			return None
 		
 		ticket=TicketsManager.WATCH_DIR+user
 		
