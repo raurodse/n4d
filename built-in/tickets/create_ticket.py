@@ -7,7 +7,7 @@ def create_ticket(self,user):
 	if ret:
 		return n4d.responses.build_successful_call_response(True,"Ticket created for user %s"%user)
 	else:
-		error_code=-5
-		return n4d.responses.build_authentication_failed_response(False,"Failed to create ticket fo ruser %s"%user,error_code)
+		CREATE_TICKET_ERROR=-5
+		return n4d.responses.build_failed_call_response(CREATE_TICKET_ERROR,"Failed to create ticket")
 
 #def test
