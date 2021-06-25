@@ -1,3 +1,9 @@
+n4d (0.936) focal; urgency=medium
+
+  * Fixed create_ticket failed response
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 25 Jun 2021 22:11:26 +0200
+
 n4d (0.935) focal; urgency=medium
 
   * Making sure we create a ticket for a valid user.
