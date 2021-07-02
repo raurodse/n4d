@@ -11,6 +11,7 @@ import traceback
 
 import n4d.server.core
 import n4d.responses
+import n4d.utils
 
 class VariablesManager:
 	
@@ -23,6 +24,8 @@ class VariablesManager:
 	VARIABLE_NOT_FOUND_ERROR=-5
 	PROTECTED_VARIABLE_ERROR=-10
 	REMOTE_VARIABLES_SERVER_ERROR=-15
+	VARIABLES_BACKUP_ERROR=-30
+	VARIABLES_RESTORE_ERROR=-35
 	
 	LOCK_FILE=RUN_DIR+"lock"
 	
@@ -34,8 +37,6 @@ class VariablesManager:
 		if os.path.exists(VariablesManager.LOCK_FILE):
 			os.remove(VariablesManager.LOCK_FILE)
 		
-		self.variables={}
-		self.triggers={}
 		
 		self.create_variables_dirs()
 		
@@ -78,6 +79,9 @@ class VariablesManager:
 	#def create_run_dir
 	
 	def load_variables(self):
+		
+		self.variables={}
+		self.triggers={}
 		
 		self.dprint("Loading variables...")
 		for file_ in os.listdir(VariablesManager.VARIABLES_DIR):
@@ -405,6 +409,58 @@ class VariablesManager:
 		
 		
 	#def execute_triggers
+	
+	def backup(self,dir="/backup"):
+		
+		try:
+			file_path=dir+"/"+n4d.utils.get_backup_name("VariablesManager")
+			tar=tarfile.open(file_path,"w:gz")
+			tar.add(VariablesManager.VARIABLES_DIR)
+			tar.close()
+			
+			return n4d.responses.build_successful_call_response(file_path)
+			
+		except Exception as e:
+			
+			return n4d.responses.build_failed_call_response(VariablesManager.VARIABLES_BACKUP_ERROR,str(e))
+		
+	#def backup
+	
+	def restore(self,file_path=None):
+		
+		if file_path==None:
+			for f in sorted(os.listdir("/backup"),reverse=True):
+				if "VariablesManager" in f:
+					file_path="/backup/"+f
+					break
+					
+		try:
+			if os.path.exists(file_path):
+				
+				tmp_dir=tempfile.mkdtemp()
+				tar=tarfile.open(file_path)
+				tar.extractall(tmp_dir)
+				tar.close()
+				
+				if not os.path.exists(VariablesManager.VARIABLES_DIR):
+					os.mkdir(VariablesManager.VARIABLES_DIR)
+				
+				for f in os.listdir(tmp_dir+VariablesManager.VARIABLES_DIR):
+					tmp_path=tmp_dir+VariablesManager.VARIABLES_DIR+f
+					shutil.copy(tmp_path,VariablesManager.VARIABLES_DIR)
+				
+				
+				self.load_variables()
+						
+				return n4d.responses.buid_successful_call_response()
+			else:
+				return n4d.responses.build_failed_call_response(VariablesManager.VARIABLES_RESTORE_ERROR,"File not found")
+				
+		except Exception as e:
+			
+			return n4d.responses.build_failed_call_response(VariablesManager.VARIABLES_RESTORE_ERROR,str(e))
+		
+	#def restore
 	
 	
 
