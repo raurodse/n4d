@@ -1,3 +1,9 @@
+n4d (0.937) focal; urgency=medium
+
+  * Added backup/restore functions to VariablesManager
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 02 Jul 2021 14:32:43 +0200
+
 n4d (0.936) focal; urgency=medium
 
   * Fixed create_ticket failed response
