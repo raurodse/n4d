@@ -8,6 +8,7 @@ import copy
 import xmlrpc.client
 import ssl
 import traceback
+import tarfile
 
 import n4d.server.core
 import n4d.responses
