@@ -1,3 +1,11 @@
+n4d (0.939) focal; urgency=medium
+
+  * Added Core.get_ip_from_host 
+  * Making sure if REMOTE_VARIABLES_SERVER is a host name, it isn't pointing 
+    to local server.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 06 Jul 2021 15:41:56 +0200
+
 n4d (0.938) focal; urgency=medium
 
   * Fixed missing tarfile import in VariablesManager
