@@ -402,7 +402,7 @@ class Core:
 				
 				f_name=f.replace(Core.BUILTIN_FUNCTIONS_PATH,"")
 				self.dstdout("\t\t%s ... "%f_name)
-				f_name=f_name.strip(".py").split("/")[-1]
+				f_name=f_name.split(".py")[0].split("/")[-1]
 				exec(open(f).read(),locals())
 				setattr(Core,"builtin_"+f_name,locals()[f_name])
 				if not f_name.startswith("_"):
