@@ -1,3 +1,9 @@
+n4d (0.940) focal; urgency=medium
+
+  * updated setup.py with n4d newer release version. this should be automated.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 06 Jul 2021 15:51:27 +0200
+
 n4d (0.939) focal; urgency=medium
 
   * Added Core.get_ip_from_host 
