@@ -15,6 +15,7 @@ import threading
 import time
 import traceback
 import xmlrpc
+import socket
 
 import n4d.responses
 
@@ -312,7 +313,16 @@ class Core:
 
 		return dev
 		
-	#def route_get_ip	
+	#def route_get_ip
+	
+	def get_ip_from_host(self,host):
+		
+		try:
+			return socket.gethostbyname(host)
+		except Exception:
+			return None
+		
+	#def get_ip_from_host
 	
 	# ################### #
 	# INTERNAL FUNCTIONS
