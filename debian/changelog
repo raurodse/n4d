@@ -1,3 +1,9 @@
+n4d (0.942) focal; urgency=medium
+
+  * Trying to execute startup of a hotloaded plugin 
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 14 Jul 2021 09:59:18 +0200
+
 n4d (0.941) focal; urgency=medium
 
   * Fixed built in sourcing. uses split instead of strip
