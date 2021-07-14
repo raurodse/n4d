@@ -453,6 +453,8 @@ class Core:
 		if plugin!=None:
 			ret=self._load_plugin(plugin,True)
 			if ret:
+				if plugin in self.executed_startups:
+					self.executed_startups.remove(plugin)
 				self._startup_launcher()
 				return ret
 				
