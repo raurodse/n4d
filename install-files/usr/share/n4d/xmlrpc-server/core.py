@@ -1238,8 +1238,6 @@ class Core:
 
 		
 		self.dprint("")
-		self.dprint("[" + user + "@"+client_address+"] " + "Execution of method [" + method + "] from class " + class_name)
-		#self.dprint("")
 
 		ret=self.validate_function(params[0],class_name,method,new_params,client_address)
 
@@ -1250,7 +1248,7 @@ class Core:
 
 
 		if ret ==RUN:
-			
+			self.dprint("[" + user + "@"+client_address+"] " + "Execution of method [" + method + "] from class " + class_name)
 			add_n4d_id(method,user,password)
 			try:
 				ret=getattr(objects[class_name],method)(*new_params)
@@ -1263,6 +1261,7 @@ class Core:
 			
 		if ret==METHOD_NOT_FOUND:
 			
+			self.dprint("Dispatch error : Unknown method '%s'"%method)
 			return "FUNCTION NOT SUPPORTED"
 			
 		if ret==AUTHENTICATION_ERROR:
@@ -1271,19 +1270,22 @@ class Core:
 				if x.pw_uid >= 1000 :
 					list_users.append(x[0])
 			if user in list_users:
+				self.dprint("Dispatch error : User and/or password error")
 				return "USER AND/OR PASSWORD ERROR"
+			
+			self.dprint("Dispatch error : User does not exist")
 			return "USER DOES NOT EXIST"
 			
 		if ret==NOT_ALLOWED:
-			
+			self.dprint("Dispatch error : Method not allowed for your groups")
 			return "METHOD NOT ALLOWED FOR YOUR GROUPS"
 			
 		if ret==UNSECURE_METHOD:
-			
+			self.dprint("Dispatch error : UNSECURE EXCEPTION")
 			return "METHOD IS BEING CALLED IN AN UNSECURED WAY. USER PARAMETER MUST MATCH USER CLIENT INFO"
 			
 		if ret==CLASS_NOT_FOUND:
-			
+			self.dprint("Dispatch error : Unknown class '%s'"%class_name)
 			return "CLASS NOT FOUND"
 	
 	#def dispatch
