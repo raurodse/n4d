@@ -26,11 +26,6 @@ import n4d.server.ticketsmanager
 import n4d.server.clientmanager
 
 
-UNKNOWN_CLASS=-40
-UNKNOWN_METHOD=-30
-USER_NOT_ALLOWED=-20
-AUTHENTICATION_ERROR=-10
-
 ANONYMOUS_AUTH=50
 PAM_AUTH=60
 KEY_AUTH=70
@@ -903,6 +898,13 @@ class Core:
 					response=n4d.responses.build_invalid_response(response)
 			
 			if response != None:
+				
+				if response["status"]==n4d.responses.UNKNOWN_CLASS:
+					self.dprint("Dispatch error - Unknown class '%s'"%n4d_call_data["class"])
+					
+				if response["status"]==n4d.responses.UNKNOWN_METHOD:
+					self.dprint("Dispatch error - Unknown function '%s.%s'"%(n4d_call_data["class"],method))				
+					
 				return response
 				
 			return n4d.responses.build_unhandled_error_response("There was no response to return")
