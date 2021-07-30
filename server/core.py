@@ -566,7 +566,7 @@ class Core:
 				else:
 					n4d_call_data["error"]="Unknown built-in method '%s' or invalid n4d call format. Ex: method(auth,class_name,*args)"%method	
 					n4d_call_data["traceback"]="[Core.parse_params] Method not in Core.BUILTIN_FUNCTIONS and unable to parse standard n4d call args"
-					
+					self.dprint(n4d_call_data["error"])
 				
 			return n4d_call_data
 			
@@ -580,6 +580,7 @@ class Core:
 			n4d_call_data["error"]=str(e)
 			tback=traceback.format_exc()
 			n4d_call_data["traceback"]=tback
+			self.dprint(n4d_call_data["error"])
 			return n4d_call_data
 			
 		
