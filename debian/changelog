@@ -1,3 +1,10 @@
+n4d (0.944) focal; urgency=medium
+
+  * Added built-in methods to get_methods
+  * dprint dispatch errors
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 30 Jul 2021 13:40:48 +0200
+
 n4d (0.943) focal; urgency=medium
 
   * MAking sure class startup is executed when loaded in runtime
