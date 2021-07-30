@@ -1,3 +1,9 @@
+n4d (0.125) bionic; urgency=medium
+
+  * Added debug info when dispatch fails
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 30 Jul 2021 13:52:14 +0200
+
 n4d (0.124) bionic; urgency=medium
 
   * Fixed secure functions args check
