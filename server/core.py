@@ -904,7 +904,7 @@ class Core:
 					self.dprint("Dispatch error - Unknown class '%s'"%n4d_call_data["class"])
 					
 				if response["status"]==n4d.responses.UNKNOWN_METHOD:
-					self.dprint("Dispatch error - Unknown function '%s.%s'"%(n4d_call_data["class"],method))				
+					self.dprint("Dispatch error - Unknown method '%s.%s'"%(n4d_call_data["class"],method))				
 					
 				return response
 				
