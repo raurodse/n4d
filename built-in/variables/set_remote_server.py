@@ -5,7 +5,7 @@ def set_remote_server(self,auth,variable_name,server):
 	
 	if ret["status"]==0:	
 		#internal core funciton
-		return self.set_remote_server(variable_name,value,attr_dic)
+		return self.set_remote_server(variable_name,server)
 
 	else:
 		return ret

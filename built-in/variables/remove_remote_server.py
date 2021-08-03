@@ -5,7 +5,7 @@ def remove_remote_server(self,auth,variable_name):
 	
 	if ret["status"]==0:	
 		#internal core funciton
-		return self.remove_remote_server(variable_name,value)
+		return self.remove_remote_server(variable_name)
 
 	else:
 		return ret
