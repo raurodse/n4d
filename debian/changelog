@@ -1,3 +1,9 @@
+n4d (0.945) focal; urgency=medium
+
+  * Added remote_server functionality for individual variables
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 03 Aug 2021 12:34:15 +0200
+
 n4d (0.944.1) focal; urgency=medium
 
   * minor changes in dispatch error output
