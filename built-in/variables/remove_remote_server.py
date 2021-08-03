@@ -1,5 +1,5 @@
 
-def set_remote_server(self,auth,variable_name):
+def remove_remote_server(self,auth,variable_name):
 
 	ret=self.builtin_validation(auth)
 	
