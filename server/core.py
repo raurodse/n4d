@@ -1026,7 +1026,23 @@ class Core:
 		'''
 		return self.variables_manager.delete_attr(variable_name,attr_key)
 		
-	#def set_attr
+	#def delete_attr
+	
+	def set_remote_server(self,variable_name,server):
+		'''
+		Wrap to variables_manager.set_remote_server
+		'''
+		return self.variables_manager.set_remote_server(variable_name,server)
+		
+	#def set_remote_server
+	
+	def remove_remote_server(self,variable_name):
+		'''
+		Wrap to variables_manager.remove_remote_server
+		'''
+		return self.variables_manager.remove_remote_server(variable_name)
+		
+	#def set_remote_server
 	
 	def read_inbox(self):
 		'''
