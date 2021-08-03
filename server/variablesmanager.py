@@ -27,6 +27,7 @@ class VariablesManager:
 	REMOTE_VARIABLES_SERVER_ERROR=-15
 	VARIABLES_BACKUP_ERROR=-30
 	VARIABLES_RESTORE_ERROR=-35
+	REMOTE_SERVER_NOT_CONFIGURED_ERROR=-40
 	
 	LOCK_FILE=RUN_DIR+"lock"
 	
@@ -277,6 +278,33 @@ class VariablesManager:
 		
 	#def delete_attr
 	
+	def set_remote_server(self,variable_name,server):
+		
+		if variable_name in self.variables:
+			self.variables[variable_name]["remote_server"]=server
+			self.save_variables(variable_name)
+			return n4d.responses.build_successful_call_response(True,"Remote server added to %s"%variable_name)
+			
+		return n4d.responses.build_failed_call_response(VariablesManager.VARIABLE_NOT_FOUND_ERROR,"Variable not found")
+		
+	#def set_remote_server
+	
+	
+	def remove_remote_server(self,variable_name):
+		
+		if variable_name in self.variables:
+			if "remote_server" in self.variables[variable_name]:
+				self.variables[variable_name].pop("remote_server")
+				self.save_variables(variable_name)
+				return n4d.responses.build_successful_call_response(True,"Remote server removed from %s"%variable_name)
+			else:
+				return n4d.responses.build_failed_call_response(REMOTE_SERVER_NOT_CONFIGURED_ERROR,"%s has no remote server configured"%variable_name)
+				
+		return n4d.responses.build_failed_call_response(VariablesManager.VARIABLE_NOT_FOUND_ERROR,"Variable not found")
+			
+		
+	#def remove_remote_server
+	
 	def get_variable(self,name,full_description=False):
 		
 		if name in self.variables:
@@ -284,10 +312,31 @@ class VariablesManager:
 			if "root_protected" in self.variables[name] and self.variables[name]["root_protected"]:
 				return n4d.responses.build_failed_call_response(VariablesManager.PROTECTED_VARIABLE_ERROR,"Root protected variable. File is found in %s%s"%(VariablesManager.WATCH_DIR,name))
 			
-			if full_description:
-				return n4d.responses.build_successful_call_response(copy.deepcopy(self.variables[name]))
+			if "remote_server" not in self.variables[name] or ("remote_server" in self.variables[name] and self.variables[name]["remote_server"]==None):
+			
+				if full_description:
+					return n4d.responses.build_successful_call_response(copy.deepcopy(self.variables[name]))
+				else:
+					return n4d.responses.build_successful_call_response(copy.deepcopy(self.variables[name]["value"]))
+					
 			else:
-				return n4d.responses.build_successful_call_response(copy.deepcopy(self.variables[name]["value"]))
+				remote_variable_server=self.variables[name]["remote_server"]
+				remote_ip=self.core.get_ip_from_host(remote_variable_server)
+				if remote_ip!=None:
+					remote_variable_server=remote_ip
+					
+				if remote_variable_server not in self.core.get_all_ips():
+					context=ssl._create_unverified_context()
+					s = xmlrpc.client.ServerProxy('https://%s:9779'%self.variables[name]["remote_server"],context=context,allow_none=True)
+					try:
+						ret=s.get_variable(name,full_description)
+						if ret["status"]==0:
+							return ret
+
+					except Exception as e:
+						tback=traceback.format_exc()
+						return n4d.responses.build_failed_call_response(VariablesManager.REMOTE_VARIABLES_SERVER_ERROR,str(e),tback)
+				
 				
 		elif "REMOTE_VARIABLES_SERVER" in self.variables and self.variables["REMOTE_VARIABLES_SERVER"]["value"]!=None:
 			
