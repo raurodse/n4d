@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import PAM
+
 class PamManager:
+	
 	def __init__(self,module="common-auth"):
 		self.user = None
 		self.passwd = None
