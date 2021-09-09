@@ -7,7 +7,6 @@ import n4d.server.core
 
 class PluginManager:
 	
-	
 	N4D_BASE_DIR="/usr/share/n4d/"
 	BASE_CONF_PATH="/etc/n4d/"
 	PYTHON_PLUGINS_PATH=N4D_BASE_DIR + "python-plugins/"
@@ -27,11 +26,12 @@ class PluginManager:
 
 		self.plugin_path={}
 		self.plugin_path["python"]=PluginManager.PYTHON_PLUGINS_PATH
-		#self.plugin_path["python"]=PluginManager.OLD_PYTHON_PLUGINS_PATH
-		
 		self.plugins={}
 		self.get_plugins()
+		
+		#self.plugin_path["python"]=PluginManager.OLD_PYTHON_PLUGINS_PATH
 		#self.plugins=self.get_old_plugins()
+		
 		
 	#def init
 	
