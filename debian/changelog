@@ -1,3 +1,9 @@
+n4d (0.126) bionic; urgency=medium
+
+  * Creating /var/log/n4d dir if it doesn't exist
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 09 Sep 2021 11:00:57 +0200
+
 n4d (0.125) bionic; urgency=medium
 
   * Added debug info when dispatch fails
