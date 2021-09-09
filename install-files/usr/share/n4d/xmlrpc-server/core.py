@@ -26,6 +26,7 @@ import tempfile
 
 threading._DummyThread._Thread__stop = lambda x: 42
 
+LOG_DIR="/var/log/n4d/"
 LOG_FILE="/var/log/n4d/error_log"
 SERVER_LOG="/var/log/n4d/n4d-server"
 CUSTOM_LOCAL_DISPATCH_DIR="/usr/share/n4d/xmlrpc-server/custom-local-dispatch/"
@@ -60,6 +61,9 @@ objects={}
 
 class_skel="import subprocess\nclass %CLASSNAME%:\n"
 method_skel="\tdef %METHOD%(self,*params):\n\t\tpopen_list=[]\n\t\tpopen_list.append('%BINARY%')\n\t\tfor param in params:\n\t\t\tpopen_list.append(str(param))\n\t\tprint('[BINARY-PLUGIN] Before execution...')\n\t\toutput = subprocess.Popen(popen_list, stdout=subprocess.PIPE).communicate()[0]\n\t\tprint('[BINARY-PLUGIN] Execution returns ' + str(output))\n\t\treturn output\n\n"
+
+if not os.path.exists(LOG_DIR):
+	os.makedirs(LOG_DIR)
 
 srv_logger=open(SERVER_LOG,"w")
 
