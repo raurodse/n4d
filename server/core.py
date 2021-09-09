@@ -258,6 +258,22 @@ class Core:
 	
 	#def get_device_info
 	
+	def get_ip_from_device(self,dev):
+		
+		IP_NOT_AVAILABLE=-10
+		DEV_NOT_FOUND=-5
+		
+		info=self.get_device_info(dev)
+		if info!=None:
+			if "ip" in info:
+				return n4d.responses.build_successful_call_response(info["ip"])
+			else:
+				return n4d.responses.build_failed_call_response(IP_NOT_AVAILABLE,"IP not available for device '%s'"%dev)
+		
+		return n4d.responses.build_failed_call_response(DEV_NOT_FOUND,"Device '%s' not available"%dev)
+		
+	#def get_ip_from_device
+	
 	def get_all_ips(self):
 		
 		ret=set()
@@ -602,7 +618,8 @@ class Core:
 		
 		user=n4d_data["user"]
 		password=n4d_data["password"]
-		sleep_time=2
+		sleep_time=Core.ERROR_SLEEP_TIME
+		max_tries_without_timeout=5
 		
 		if self.cache_auth(n4d_data):
 			return True
@@ -630,7 +647,7 @@ class Core:
 				self.validation_history[user]["password"]=None
 				self.validation_history[user]["tries"]=0
 			self.validation_history[user]["tries"]+=1
-			if self.validation_history[user]["tries"] > 10:
+			if self.validation_history[user]["tries"] > max_tries_without_timeout:
 				self.dprint("[PAM_AUTH] Too many unsuccessful tries for user %s. Sleeping response..."%user)
 				time.sleep(self.validation_history[user]["tries"]*sleep_time)
 			return False
@@ -665,11 +682,14 @@ class Core:
 	#def n4d_ticket_auth
 	
 	def key_auth(self,n4d_data):
-		#self.dprint("KEY_AUTH")
 
 		if n4d_data["password"]==self.n4d_key:
+			self.n4d_id_validation_errors_count=0
 			return True
-			
+		else:
+			self.n4d_id_validation_errors_count+=1
+			time.sleep(Core.ERROR_SLEEP_TIME*self.n4d_id_validation_errors_count)
+				
 		return False
 		
 	#def key_auth
@@ -889,7 +909,7 @@ class Core:
 			if method in Core.BUILTIN_FUNCTIONS:
 				response=self._dispatch_core_function(n4d_call_data)
 			else:
-				# a valid plugin plugin
+				# or a valid plugin plugin
 				if n4d_call_data["class"] in self.plugin_manager.plugins and self.plugin_manager.plugins[n4d_call_data["class"]]["found"] and self.plugin_manager.plugins[n4d_call_data["class"]]["object"]!=None:
 					response=self._dispatch_plugin_function(n4d_call_data)
 				else:
