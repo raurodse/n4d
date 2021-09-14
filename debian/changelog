@@ -1,3 +1,9 @@
+n4d (0.127) bionic; urgency=medium
+
+  * Making sure wrong conf file doesnt kill main process
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 14 Sep 2021 13:50:42 +0200
+
 n4d (0.126) bionic; urgency=medium
 
   * Creating /var/log/n4d dir if it doesn't exist
