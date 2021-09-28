@@ -223,8 +223,31 @@ class VariablesManager:
 	
 	def variable_exists(self,vname):
 		
-		value=vname in self.variables
-		return n4d.responses.build_successful_call_response(value)
+		variable_exists=vname in self.variables
+		
+		if "REMOTE_VARIABLES_SERVER" in self.variables and self.variables["REMOTE_VARIABLES_SERVER"]["value"]!=None:
+			
+			remote_variable_server=self.variables["REMOTE_VARIABLES_SERVER"]["value"]
+			remote_ip=self.core.get_ip_from_host(remote_variable_server)
+			
+			if remote_ip!=None:
+				remote_variable_server=remote_ip
+
+			if remote_variable_server not in self.core.get_all_ips():
+				context=ssl._create_unverified_context()
+				s = xmlrpc.client.ServerProxy('https://%s:9779'%self.variables["REMOTE_VARIABLES_SERVER"]["value"],context=context,allow_none=True)
+				try:
+					ret=s.variable_exists(vname)
+					if ret["status"]==0:
+						variable_exists=ret["return"]
+
+				except Exception as e:
+					pass
+					#tback=traceback.format_exc()
+					#return n4d.responses.build_failed_call_response(VariablesManager.REMOTE_VARIABLES_SERVER_ERROR,str(e),tback)			
+			
+		
+		return n4d.responses.build_successful_call_response(variable_exists)
 		
 	#def variable_exists
 			
