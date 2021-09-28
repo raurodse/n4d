@@ -392,6 +392,7 @@ class Core:
 	#def create_token
 	
 	def get_user_groups(self,user):
+		
 		gid = pwd.getpwnam(user).pw_gid
 		groups_gids = os.getgrouplist(user, gid)
 		groups = [ grp.getgrgid(x).gr_name for x in groups_gids ]
