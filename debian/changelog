@@ -1,3 +1,9 @@
+n4d (0.946) focal; urgency=medium
+
+  * n4d-modules loads/unloads plugins when the service is online only.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 28 Sep 2021 10:29:23 +0200
+
 n4d (0.945) focal; urgency=medium
 
   * Added remote_server functionality for individual variables
