@@ -7,7 +7,7 @@ import sys
 if __name__ == '__main__':
 	
 	setup(name='n4d',
-		version='0.941',
+		version='0.946',
 		description='N4d',
 		long_description="""""",
 		author='Hector Garcia Huerta',
