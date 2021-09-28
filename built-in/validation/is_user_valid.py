@@ -10,9 +10,10 @@ def is_user_valid(self,user,password,group_list=[]):
 			for group in user_group_list:
 				if group in group_list:
 					return n4d.responses.build_successful_call_response(True)
+			return n4d.responses.build_successful_call_response(False,"User doesn't belong to requested group list")
 		else:
-			return n4d.responses.build_successful_call_response(msg="User doesn't belong to requested group list")
+			return n4d.responses.build_successful_call_response(True)
 	
-	return n4d.responses.build_successful_call_response(False,msg="User and/or password error")
+	return n4d.responses.build_successful_call_response(False,"User and/or password error")
 
 #def is_user_valid
