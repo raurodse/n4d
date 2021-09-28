@@ -9,7 +9,7 @@ def is_user_valid(self,user,password,group_list=[]):
 			user_group_list=ret["return"][1]
 			for group in user_group_list:
 				if group in group_list:
-					return n4d.responses.build_successful_call_response)
+					return n4d.responses.build_successful_call_response(True)
 		else:
 			return n4d.responses.build_successful_call_response(msg="User doesn't belong to requested group list")
 	
