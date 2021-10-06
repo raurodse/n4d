@@ -8,6 +8,7 @@ from xmlrpc.server import SimpleXMLRPCServer,SimpleXMLRPCDispatcher,SimpleXMLRPC
 import ssl
 import sys
 import traceback
+import threading
 
 import locale
 locale.setlocale(locale.LC_ALL, 'C.UTF-8')
@@ -125,12 +126,13 @@ class N4dServer:
 			response=bytearray(response,self.encoding)
 			return response	
 
-	def init_server(self,host,port):
+	def init_server(self,host,port,init_secondary=False):
 		
 		dprint("Starting N4D ...")
 		self.core=n4d.server.core.Core.get_core(DEBUG)
 		self.server_host=host
 		self.server_port=port
+		self.secondary=init_secondary
 		self.handler=N4dServer.N4dCallHandler
 		self.handler.encode_threshold=None
 		self.server=N4dServer.ThreadedXMLRPCServer((host,port),self.handler,DEBUG)
@@ -140,17 +142,56 @@ class N4dServer:
 		self.wrap_ssl()
 		self.server.register_instance(self.core)
 		
+		if init_secondary:
+			self.init_secondary_server(host,port+1)
+		
 	#def init_server
+	
+	def init_secondary_server(self,host,port,ssl_wrapped=False):
+		
+		self.secondary_server_host=host
+		self.secondary_server_port=port
+		self.secondary_handler=N4dServer.N4dCallHandler
+		self.is_secondary_server_secured=ssl_wrapped
+		self.handler.encode_threshold=None
+		self.secondary_server=N4dServer.ThreadedXMLRPCServer((host,port),self.secondary_handler,DEBUG)
+		SimpleXMLRPCDispatcher.__init__(self.secondary_server,allow_none=True)
+		
+		if ssl_wrapped:
+			self.secondary_server.socket=ssl.wrap_socket(self.secondary_server.socket,N4dServer.N4D_KEYFILE,N4dServer.N4D_CERTFILE)
+			
+		self.secondary_server.register_instance(self.core)
+			
+		
+	#def init_secondary_server
 	
 	def wrap_ssl(self):
 		
 		if N4dServer.SECURE_SERVER:
 			self.server.socket=ssl.wrap_socket(self.server.socket,N4dServer.N4D_KEYFILE,N4dServer.N4D_CERTFILE)
 			
+		self.is_server_secured=N4dServer.SECURE_SERVER
+			
 	#def wrap_ssl
 	
 	
+	def start_secondary_server(self):
+		
+		dprint("N4D secondary server ready at port %s ..."%(self.secondary_server_port))
+		try:
+			self.secondary_server.serve_forever()
+		except KeyboardInterrupt:
+			return
+		
+	#def start_secondary_server
+	
 	def start_server(self):
+		
+		if self.secondary:
+			t=threading.Thread(target=self.start_secondary_server)
+			t.daemon=True
+			t.start()
+		
 		
 		dprint("N4D server ready at port %s (Press CTRL+c to exit) ..."%(self.server_port))
 
