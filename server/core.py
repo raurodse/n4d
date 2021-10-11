@@ -494,7 +494,7 @@ class Core:
 					ret[x]=self.plugin_manager.plugins[x]["methods"]
 					
 			ret["built-in"]={}
-			for method in core.BUILTIN_FUNCTIONS:
+			for method in self.BUILTIN_FUNCTIONS:
 				ret["built-in"][method]={}
 		
 			return n4d.responses.build_successful_call_response(ret)
