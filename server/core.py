@@ -499,8 +499,8 @@ class Core:
 		
 			return n4d.responses.build_successful_call_response(ret)
 		else:
-			if type(class_filter)==str and class_filter in core.plugin_manager.plugins and core.plugin_manager.plugins[x]["found"]:
-				ret[class_filter]=core.plugin_manager.plugins[class_filter]["methods"]
+			if type(class_filter)==str and class_filter in self.plugin_manager.plugins and self.plugin_manager.plugins[x]["found"]:
+				ret[class_filter]=self.plugin_manager.plugins[class_filter]["methods"]
 			else:
 				return n4d.responses.build_unknown_class_response()
 				
