@@ -859,7 +859,7 @@ class Core:
 						ok=True
 						break
 			else:
-				self.dprint("[!] WARNING - 'allowed_groups' key missing in %s configuration file [!]"%n4d_call_data["class"])
+				self.dprint("[!] WARNING - 'allowed_groups' key missing in %s.%s configuration file [!]"%(n4d_call_data["class"],n4d_call_data["method"]))
 					
 			if not ok:
 				if "allowed_users" in self.plugin_manager.plugins[n4d_call_data["class"]]["methods"][n4d_call_data["method"]]:
