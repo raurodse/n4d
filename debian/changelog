@@ -1,3 +1,10 @@
+n4d (0.949) focal; urgency=medium
+
+  * get_methods moved to core. It now supports a class filter.
+  * Fixed some failed call returns.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Mon, 11 Oct 2021 10:18:32 +0200
+
 n4d (0.948) focal; urgency=medium
 
   * Supporting secondary listening port if needed.
