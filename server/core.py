@@ -486,13 +486,12 @@ class Core:
 	
 	def get_methods(self,class_filter=None):
 		
-		core=n4d.server.core.Core.get_core()
 		ret={}
 		
 		if class_filter==None:
-			for x in core.plugin_manager.plugins:
-				if core.plugin_manager.plugins[x]["found"]:
-					ret[x]=core.plugin_manager.plugins[x]["methods"]
+			for x in self.plugin_manager.plugins:
+				if self.plugin_manager.plugins[x]["found"]:
+					ret[x]=self.plugin_manager.plugins[x]["methods"]
 					
 			ret["built-in"]={}
 			for method in core.BUILTIN_FUNCTIONS:
