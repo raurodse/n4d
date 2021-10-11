@@ -53,7 +53,11 @@ class Core:
 	RUN_TOKEN="/run/n4d/token"
 	LOG_DIR="/var/log/n4d/"
 	ERROR_SLEEP_TIME=2
+
 	
+	DEV_NOT_FOUND=-5
+	IP_NOT_AVAILABLE=-10
+	UNLOAD_PLUGIN_ERROR=-50
 	
 	@classmethod
 	def get_core(self,debug=False):
@@ -257,17 +261,14 @@ class Core:
 	
 	def get_ip_from_device(self,dev):
 		
-		IP_NOT_AVAILABLE=-10
-		DEV_NOT_FOUND=-5
-		
 		info=self.get_device_info(dev)
 		if info!=None:
 			if "ip" in info:
 				return n4d.responses.build_successful_call_response(info["ip"])
 			else:
-				return n4d.responses.build_failed_call_response(IP_NOT_AVAILABLE,"IP not available for device '%s'"%dev)
+				return n4d.responses.build_failed_call_response(Core.IP_NOT_AVAILABLE,"IP not available for device '%s'"%dev)
 		
-		return n4d.responses.build_failed_call_response(DEV_NOT_FOUND,"Device '%s' not available"%dev)
+		return n4d.responses.build_failed_call_response(Core.DEV_NOT_FOUND,"Device '%s' not available"%dev)
 		
 	#def get_ip_from_device
 	
@@ -478,9 +479,34 @@ class Core:
 			self.dprint("\t\t%s unloaded"%plugin_name)
 			return n4d.responses.build_successful_call_response(True,"Plugin unloaded")
 		
-		return n4d.responses.buid_failed_call_response(False,"Plugin not found")
+		return n4d.responses.build_failed_call_response(Core.UNLOAD_PLUGIN_ERROR,"Plugin not found")
 		
 	#def unload_plugin
+	
+	
+	def get_methods(self,class_filter=None):
+		
+		core=n4d.server.core.Core.get_core()
+		ret={}
+		
+		if class_filter==None:
+			for x in core.plugin_manager.plugins:
+				if core.plugin_manager.plugins[x]["found"]:
+					ret[x]=core.plugin_manager.plugins[x]["methods"]
+					
+			ret["built-in"]={}
+			for method in core.BUILTIN_FUNCTIONS:
+				ret["built-in"][method]={}
+		
+			return n4d.responses.build_successful_call_response(ret)
+		else:
+			if type(class_filter)==str and class_filter in core.plugin_manager.plugins and core.plugin_manager.plugins[x]["found"]:
+				ret[class_filter]=core.plugin_manager.plugins[class_filter]["methods"]
+			else:
+				return n4d.responses.build_unknown_class_response()
+				
+	#def get_methods
+	
 	
 	def compare_parameters(self,n4d_data,n4d_method):
 		
