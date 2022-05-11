@@ -19,6 +19,7 @@ class VariablesManager:
 	VARIABLES_FILE="/var/lib/n4d/variables"
 	VARIABLES_DIR="/var/lib/n4d/variables-dir/"
 	LOCK_FILE="/tmp/.llxvarlock"
+	CLIENT_LIST="/tmp/.n4d_client_list"
 	INBOX="/var/lib/n4d/variables-inbox/"
 	TRASH="/var/lib/n4d/variables-trash/"
 	CUSTOM_INSTALLATION_DIR="/usr/share/n4d/variablesmanager-funcs/"
@@ -33,6 +34,10 @@ class VariablesManager:
 		self.variables_clients={}
 		self.variables_triggers={}
 		self.failed_servers={}
+		
+		self.saving_client_list=False
+		self.load_client_list()
+		
 		t=threading.Thread(target=self.check_clients,args=())
 		t.daemon=True
 		t.start()
@@ -160,10 +165,40 @@ class VariablesManager:
 		client["missed_pings"]=0
 		client["ip"]=autocompleted_secured_ip
 		self.variables_clients[mac]=client
-		
+		self.save_client_list()
 		return self.instance_id
 
 	#def register_instance
+	
+	
+	def save_client_list(self):
+		
+		while self.saving_client_list:
+			time.sleep(1)
+			
+		self.saving_client_list=True
+		f=open(VariablesManager.CLIENT_LIST,"w")
+		data=unicode(json.dumps(self.variables_clients,indent=4,encoding="utf-8",ensure_ascii=False)).encode("utf-8")
+		f.write(data)
+		f.close()
+		self.saving_client_list=False
+		
+	#def save_client_list
+	
+	
+	def load_client_list(self):
+		
+		try:
+			if os.path.exists(VariablesManager.CLIENT_LIST):
+				f=open(VariablesManager.CLIENT_LIST,"r")
+				data=json.load(f)
+				f.close()
+				self.variables_clients=data
+			
+		except Exception as e:
+			print(str(e))
+		
+	#def load_client_list
 	
 
 	def register_n4d_instance_to_server(self):
