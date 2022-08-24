@@ -1,3 +1,10 @@
+n4d (0.128) bionic; urgency=medium
+
+  * Added client list serialization functionality to improve PRINTA
+    performance
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 24 Aug 2022 14:29:24 +0200
+
 n4d (0.127) bionic; urgency=medium
 
   * Making sure wrong conf file doesnt kill main process
