@@ -440,7 +440,7 @@ class Core:
 			if verbose:
 				self.dstdout("\t\t%s ... "%plugin)
 			try:
-				class_=imp.load_source(plugin,self.plugin_manager.plugins[plugin]["plugin_path"])
+				class_=imp.load_source(plugin+"_n4d",self.plugin_manager.plugins[plugin]["plugin_path"])
 				self.plugin_manager.plugins[plugin]["object"]=getattr(class_,plugin)()
 				if verbose:
 					self.dstdout("OK\n")
